@@ -1,0 +1,80 @@
+{
+  "version": "1.0.0",
+  "projectName": "N8N Builder App",
+  "description": "Modern web application with BMad Method specialist agents",
+  "agents": {
+    "enabled": true,
+    "specialists": [
+      "webapp-orchestrator",
+      "webapp-ui-designer",
+      "webapp-component-architect",
+      "webapp-performance-optimizer",
+      "webapp-api-architect",
+      "webapp-database-designer",
+      "webapp-auth-specialist",
+      "webapp-deployment-expert",
+      "webapp-monetization-strategist"
+    ]
+  },
+  "techStack": {
+    "frontend": {
+      "framework": "Next.js 14+",
+      "language": "TypeScript",
+      "styling": "Tailwind CSS + Shadcn/UI",
+      "state": "Zustand",
+      "forms": "React Hook Form + Zod"
+    },
+    "backend": {
+      "database": "Convex",
+      "auth": "Clerk",
+      "api": "Next.js API Routes + tRPC"
+    },
+    "deployment": {
+      "platform": "Vercel",
+      "monitoring": "Vercel Analytics + Sentry"
+    }
+  },
+  "workflows": {
+    "parallel": true,
+    "maxConcurrentAgents": 4,
+    "contextWindowSize": 200000
+  },
+  "quality": {
+    "linting": true,
+    "typeChecking": true,
+    "testing": true,
+    "coverage": 80,
+    "performance": {
+      "lcp": 2.5,
+      "fid": 0.1,
+      "cls": 0.1
+    }
+  },
+  "commands": {
+    "parallel-workflow": {
+      "description": "Start coordinated multi-agent workflow",
+      "agents": ["webapp-orchestrator"]
+    },
+    "quick-component": {
+      "description": "Generate component with mobile-first design",
+      "agents": ["webapp-ui-designer", "webapp-component-architect"]
+    },
+    "performance-audit": {
+      "description": "Run performance optimization analysis",
+      "agents": ["webapp-performance-optimizer"]
+    },
+    "stack-recommend": {
+      "description": "Get tech stack recommendations",
+      "agents": ["webapp-orchestrator"]
+    },
+    "deploy-check": {
+      "description": "Verify deployment readiness",
+      "agents": ["webapp-deployment-expert"]
+    }
+  },
+  "debug": {
+    "enabled": true,
+    "logLevel": "info",
+    "showAgentCommunication": true
+  }
+}
