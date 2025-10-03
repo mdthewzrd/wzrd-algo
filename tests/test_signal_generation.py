@@ -1,0 +1,169 @@
+"""
+Test script to verify signal generation works correctly
+"""
+
+import json
+import pandas as pd
+from datetime import datetime, timedelta
+import numpy as np
+
+# Import our modules
+from signal_generator import SignalGenerator
+
+def create_mock_market_data(symbol: str, timeframe: str, days: int = 30) -> pd.DataFrame:
+    """Create mock market data for testing"""
+    # Generate date range
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=days)
+
+    if timeframe == '5min':
+        freq = '5T'
+    elif timeframe == '15min':
+        freq = '15T'
+    elif timeframe == '1hour':
+        freq = '1H'
+    elif timeframe == '1day':
+        freq = '1D'
+    else:
+        freq = '5T'
+
+    # Create date range (trading hours only)
+    dates = pd.date_range(start=start_date, end=end_date, freq=freq)
+
+    # Filter to market hours (9:30 AM - 4:00 PM ET)
+    dates = [d for d in dates if d.hour >= 9 and d.hour < 16 and d.weekday() < 5]
+
+    # Convert to pandas Series for easier handling
+    dates = pd.Series(dates)
+
+    # Generate realistic price data
+    np.random.seed(42)  # For reproducible results
+
+    base_price = 450.0 if symbol == 'SPY' else 350.0
+    prices = []
+
+    for i, date in enumerate(dates):
+        if i == 0:
+            prev_close = base_price
+        else:
+            prev_close = prices[i-1]['close']
+
+        # Generate random walk with drift
+        change = np.random.normal(0, 0.002)  # 0.2% std dev
+        new_price = prev_close * (1 + change)
+
+        # Generate OHLC
+        high = max(prev_close, new_price) * (1 + abs(np.random.normal(0, 0.001)))
+        low = min(prev_close, new_price) * (1 - abs(np.random.normal(0, 0.001)))
+        open_price = prev_close
+        close = new_price
+
+        # Volume
+        volume = int(np.random.lognormal(12, 0.5))  # Random volume
+
+        prices.append({
+            'date': date,
+            'open': round(open_price, 2),
+            'high': round(high, 2),
+            'low': round(low, 2),
+            'close': round(close, 2),
+            'volume': volume
+        })
+
+    return pd.DataFrame(prices)
+
+def test_signal_generation():
+    """Test signal generation with mock data"""
+    print("🧪 Testing Signal Generation System")
+    print("="*50)
+
+    # Load existing strategy config
+    try:
+        with open('test_strategy_advanced_complete.json', 'r') as f:
+            config = json.load(f)
+        print("✅ Loaded strategy config")
+    except Exception as e:
+        print(f"❌ Failed to load config: {e}")
+        return
+
+    # Clean config (remove existing signals)
+    if 'signals' in config:
+        del config['signals']
+    if 'performance_metrics' in config:
+        del config['performance_metrics']
+    if 'provenance' in config:
+        del config['provenance']
+
+    print(f"📋 Strategy: {config.get('strategy_name', 'Unknown')}")
+    print(f"📊 Symbol: {config.get('symbol', 'SPY')}")
+    print(f"⏰ Timeframe: {config.get('timeframe', '5min')}")
+
+    # Create mock data
+    print(f"\n📊 Creating mock market data...")
+    data = create_mock_market_data(
+        symbol=config.get('symbol', 'SPY'),
+        timeframe=config.get('timeframe', '5min'),
+        days=20
+    )
+    print(f"✅ Created {len(data)} bars of mock data")
+
+    # Initialize signal generator
+    print(f"\n🎯 Initializing signal generator...")
+    generator = SignalGenerator(config)
+    generator.load_data(data)
+
+    # Generate signals
+    print(f"🔍 Generating signals...")
+    try:
+        artifact = generator.generate_signals()
+        print(f"✅ Generated {len(artifact['signals'])} signals")
+
+        # Display signals
+        print(f"\n📋 Generated Signals:")
+        print("-" * 50)
+        for i, signal in enumerate(artifact['signals'][:5], 1):  # Show first 5 signals
+            print(f"{i}. {signal['timestamp']}")
+            print(f"   Type: {signal['type']}")
+            print(f"   Price: ${signal['price']:.2f}")
+            print(f"   Shares: {signal['shares']}")
+            print(f"   Reason: {signal['reason']}")
+            print(f"   Position ID: {signal.get('position_id', 'N/A')}")
+            print(f"   Leg: {signal.get('leg', 1)}")
+            print()
+
+        # Display performance metrics
+        metrics = artifact.get('performance_metrics', {})
+        print(f"📊 Performance Metrics:")
+        print("-" * 30)
+        print(f"Total Trades: {metrics.get('total_trades', 0)}")
+        print(f"Win Rate: {metrics.get('win_rate', 0):.1f}%")
+        print(f"Total P&L: ${metrics.get('total_pnl', 0):.2f}")
+        print(f"Profit Factor: {metrics.get('profit_factor', 0):.2f}")
+        print(f"Expectancy: ${metrics.get('expectancy_per_r', 0):.2f}")
+
+        # Display provenance
+        provenance = artifact.get('provenance', {})
+        print(f"\n🔍 Provenance:")
+        print("-" * 20)
+        print(f"Generated by: {provenance.get('generated_by', 'Unknown')}")
+        print(f"Code Hash: {provenance.get('code_hash', 'Unknown')}")
+        print(f"Timestamp: {provenance.get('generation_timestamp', 'Unknown')}")
+
+        # Save the result
+        output_file = 'test_strategy_code_true.json'
+        with open(output_file, 'w') as f:
+            json.dump(artifact, f, indent=2, default=str)
+
+        print(f"\n💾 Saved to: {output_file}")
+        print("✅ Test completed successfully!")
+
+        return True
+
+    except Exception as e:
+        print(f"❌ Signal generation failed: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+if __name__ == "__main__":
+    test_signal_generation()

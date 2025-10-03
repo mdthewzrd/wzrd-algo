@@ -1,0 +1,69 @@
+{
+  "strategy_name": "SPY_Current_Test_Strategy_Valid_20251002",
+  "description": "Simple valid strategy with current timestamps",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2025-10-02 09:30:00",
+      "price": 572.50,
+      "shares": 100,
+      "reason": "EMA 9 crosses above EMA 20 with 1hr confirmation",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2025-10-02 11:15:00",
+      "price": 575.20,
+      "shares": 100,
+      "reason": "EMA 9 crosses below EMA 20",
+      "direction": "close_long",
+      "pnl": 270.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2025-10-02 12:45:00",
+      "price": 574.80,
+      "shares": 100,
+      "reason": "EMA 9 crosses above EMA 20 with 1hr confirmation",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2025-10-02 15:30:00",
+      "price": 576.15,
+      "shares": 100,
+      "reason": "End of day exit",
+      "direction": "close_long",
+      "pnl": 135.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover_with_mtf_confirmation",
+      "description": "EMA 9 crosses above EMA 20 on 5min with 1hr confirmation",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover_exit",
+      "description": "EMA 9 crosses below EMA 20",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    },
+    {
+      "type": "end_of_day_exit",
+      "description": "End of day exit",
+      "direction": "close_long",
+      "condition": "Time >= 15:30"
+    }
+  ]
+}

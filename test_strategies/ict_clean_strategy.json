@@ -1,0 +1,63 @@
+{
+  "strategy_name": "ICT_Kill_Zone_Clean",
+  "description": "Clean ICT strategy for testing",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 09:30:00",
+      "price": 571.85,
+      "shares": 100,
+      "reason": "Kill Zone entry with Fair Value Gap",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 11:15:00",
+      "price": 574.25,
+      "shares": 100,
+      "reason": "Liquidity zone target reached",
+      "direction": "close_long",
+      "pnl": 240.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 13:45:00",
+      "price": 574.20,
+      "shares": 100,
+      "reason": "NY PM Kill Zone liquidity sweep",
+      "direction": "short"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 15:30:00",
+      "price": 572.60,
+      "shares": 100,
+      "reason": "Fair Value Gap filled",
+      "direction": "close_short",
+      "pnl": 160.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ict_kill_zone_entry",
+      "description": "ICT Kill Zone entry with Order Block confluence",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ict_liquidity_target",
+      "description": "ICT liquidity zone target",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    }
+  ]
+}

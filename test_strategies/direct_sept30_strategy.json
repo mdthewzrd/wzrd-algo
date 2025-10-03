@@ -1,0 +1,90 @@
+{
+  "strategy_name": "SPY_DevBand_EMA_Sept30_Direct",
+  "description": "Direct strategy for Strategy Signals Viewer with Sept 30 timestamps",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-09-30 09:35:00",
+      "price": 573.15,
+      "shares": 100,
+      "reason": "EMA 9 crosses above EMA 20 with deviation band support",
+      "direction": "long",
+      "position_id": "pos_1",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-09-30 11:20:00",
+      "price": 576.85,
+      "shares": 100,
+      "reason": "Upper deviation band target reached",
+      "direction": "close_long",
+      "position_id": "pos_1",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market",
+      "pnl": 370.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-09-30 14:00:00",
+      "price": 576.20,
+      "shares": 100,
+      "reason": "Short at deviation band resistance",
+      "direction": "short",
+      "position_id": "pos_2",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-09-30 15:15:00",
+      "price": 574.10,
+      "shares": 100,
+      "reason": "Lower deviation band target",
+      "direction": "close_short",
+      "position_id": "pos_2",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market",
+      "pnl": 210.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover_devband",
+      "description": "EMA crossover with deviation band confluence",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "devband_target",
+      "description": "Deviation band target exit",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    }
+  ],
+  "performance_metrics": {
+    "total_pnl": 580.0,
+    "total_trades": 2,
+    "win_rate": 100.0,
+    "avg_trade": 290.0
+  },
+  "provenance": {
+    "generated_by": "manual_creation",
+    "generation_timestamp": "2024-09-30T20:30:00Z",
+    "rule_version": "1.0"
+  }
+}

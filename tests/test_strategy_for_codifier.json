@@ -1,0 +1,142 @@
+{
+  "strategy_name": "QQQ_Momentum_Reversal_Test",
+  "description": "Multi-timeframe momentum reversal strategy for QQQ with RSI oversold conditions and volume confirmation",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "entry_conditions": [
+    {
+      "type": "multi_timeframe_alignment",
+      "description": "HTF: Daily trend bullish + MTF: 15min pullback + LTF: 5min oversold bounce",
+      "direction": "long",
+      "indicators": ["ema20", "ema50", "rsi", "volume", "vwap"],
+      "htf_condition": "Daily EMA20 > EMA50 and price above VWAP",
+      "mtf_condition": "15min price pulls back to EMA20 support",
+      "ltf_condition": "5min RSI < 30 and volume > 1.5x average volume"
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "profit_target",
+      "description": "Take profit at 2R target",
+      "direction": "close_long",
+      "target_r": 2.0
+    },
+    {
+      "type": "stop_loss",
+      "description": "Stop loss at 1R risk",
+      "direction": "close_long",
+      "stop_r": 1.0
+    },
+    {
+      "type": "time_based",
+      "description": "Close position at end of trading day",
+      "direction": "close_long",
+      "time": "15:45"
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 1.0
+    },
+    "take_profit": {
+      "type": "r_multiple",
+      "value": 2.0
+    },
+    "position_size": {
+      "type": "r_based",
+      "value": 1.0,
+      "account_size": 10000,
+      "risk_per_trade": 100
+    },
+    "pyramiding": {
+      "enabled": true,
+      "max_legs": 2,
+      "add_conditions": [
+        {
+          "level": "initial",
+          "size_r": 0.5,
+          "condition": "RSI oversold with volume spike"
+        },
+        {
+          "level": "confirmation",
+          "size_r": 0.5,
+          "condition": "Price breaks above previous swing high"
+        }
+      ]
+    }
+  },
+  "indicators": {
+    "ema20": {
+      "type": "exponential_moving_average",
+      "period": 20
+    },
+    "ema50": {
+      "type": "exponential_moving_average",
+      "period": 50
+    },
+    "rsi": {
+      "type": "relative_strength_index",
+      "period": 14,
+      "overbought": 70,
+      "oversold": 30
+    },
+    "volume": {
+      "type": "volume_analysis",
+      "average_period": 20,
+      "spike_threshold": 1.5
+    },
+    "vwap": {
+      "type": "volume_weighted_average_price",
+      "period": "daily"
+    }
+  },
+  "market_conditions": {
+    "time_filters": {
+      "start_time": "09:30",
+      "end_time": "15:45",
+      "timezone": "US/Eastern"
+    },
+    "day_filters": {
+      "trading_days_only": true,
+      "avoid_news_events": false
+    }
+  },
+  "backtest_settings": {
+    "start_date": "2024-09-01",
+    "end_date": "2024-10-01",
+    "commission": 0.005,
+    "slippage": 0.01
+  },
+  "strategy_rules": {
+    "entry_logic": [
+      "Wait for daily timeframe to be bullish (EMA20 > EMA50)",
+      "Identify 15min pullback to EMA20 support level",
+      "Enter on 5min RSI oversold (< 30) with volume confirmation",
+      "Volume must be > 1.5x 20-period average",
+      "Price must be above daily VWAP for trend confirmation"
+    ],
+    "exit_logic": [
+      "Take profit at 2R (2x risk amount)",
+      "Stop loss at 1R below entry",
+      "Close all positions 15 minutes before market close",
+      "Trail stop to breakeven after 1R profit"
+    ],
+    "position_sizing": [
+      "Risk 1% of account per trade ($100 on $10k account)",
+      "Calculate position size based on stop loss distance",
+      "Use pyramiding with 2 legs maximum",
+      "First leg: 50% of planned position size",
+      "Second leg: 50% on momentum confirmation"
+    ]
+  },
+  "expected_performance": {
+    "win_rate": 0.55,
+    "profit_factor": 1.8,
+    "max_drawdown": 0.08,
+    "trades_per_month": 15,
+    "average_win": 180,
+    "average_loss": 95
+  },
+  "notes": "This is a test strategy designed to generate realistic signals for testing the Signal Codifier. It combines multiple timeframe analysis with momentum and mean reversion concepts."
+}

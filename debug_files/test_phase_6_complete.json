@@ -1,0 +1,61 @@
+{
+  "strategy_name": "Phase_6_Complete_MTF_Strategy_Test",
+  "description": "Complete strategy: EMA 9/20 crossover on 5min with 1hr EMA confirmation AND 8am-1pm time filtering AND daily EMA gate AND deviation band route start AND route end exit",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 09:30:00",
+      "price": 548.50,
+      "shares": 100,
+      "reason": "EMA 9 crossed above EMA 20 on 5min AND 1hr EMA trend bullish AND within 8am-1pm window AND daily EMA gate AND deviation band route start",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 11:45:00",
+      "price": 555.00,
+      "shares": 100,
+      "reason": "Price reached upper deviation band (route end)",
+      "direction": "close_long",
+      "pnl": 650.0
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 14:30:00",
+      "price": 547.00,
+      "shares": 100,
+      "reason": "EMA 9 crossed below EMA 20 on 5min (fallback exit)",
+      "direction": "close_long",
+      "pnl": -150.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover_with_complete_mtf_strategy",
+      "description": "Complete MTF strategy: EMA crossover + 1hr confirmation + daily gate + route start + time filter",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h AND EMA9_1D > EMA20_1D AND Low_1h <= DevBand72_1h_Lower_6",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "deviation_band_route_end",
+      "description": "Price reaches upper deviation band (route end)",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    },
+    {
+      "type": "ema_crossover_exit_fallback",
+      "description": "EMA 9 crosses below EMA 20 on 5min (fallback exit)",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    }
+  ]
+}

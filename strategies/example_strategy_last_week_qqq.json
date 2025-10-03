@@ -1,0 +1,136 @@
+{
+  "strategy_name": "QQQ_Last_Week_Mean_Reversion",
+  "description": "Mean reversion strategy for QQQ focusing on last week's market conditions (Sept 23-27, 2025) with gap fading and VWAP reversals",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "entry_conditions": [
+    {
+      "type": "gap_fade_short",
+      "description": "Short QQQ when it gaps up more than 0.8% from previous close, with RSI overbought",
+      "direction": "short",
+      "indicators": ["vwap", "rsi", "ema20", "volume"],
+      "conditions": [
+        "gap_up_percentage > 0.8",
+        "rsi > 70",
+        "price > vwap",
+        "volume > 1M"
+      ],
+      "time_window": "09:30-10:30",
+      "gap_threshold": 0.8,
+      "rsi_threshold": 70
+    },
+    {
+      "type": "vwap_bounce_long",
+      "description": "Long when QQQ pulls back to VWAP support with oversold RSI and volume spike",
+      "direction": "long",
+      "indicators": ["vwap", "rsi", "ema20", "volume"],
+      "conditions": [
+        "price within 0.3% of vwap",
+        "rsi < 35",
+        "volume > 1.5M",
+        "price above ema20"
+      ],
+      "time_window": "09:45-15:30",
+      "vwap_tolerance": 0.3,
+      "rsi_oversold": 35
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "profit_target_short",
+      "description": "Cover shorts when price returns to VWAP or hits 1R profit target",
+      "direction": "cover_short",
+      "conditions": [
+        "price <= vwap OR profit >= 1R"
+      ],
+      "profit_target": 1.0,
+      "vwap_target": true
+    },
+    {
+      "type": "profit_target_long",
+      "description": "Sell longs when price extends 1.2% above VWAP or hits 1.5R target",
+      "direction": "exit_long",
+      "conditions": [
+        "price >= vwap * 1.012 OR profit >= 1.5R"
+      ],
+      "profit_target": 1.5,
+      "vwap_extension": 1.2
+    },
+    {
+      "type": "stop_loss",
+      "description": "Stop loss at 1.2% for shorts, 0.8% for longs",
+      "direction": "stop_all",
+      "short_stop_percent": 1.2,
+      "long_stop_percent": 0.8
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "short_value": 1.2,
+      "long_value": 0.8
+    },
+    "take_profit": {
+      "type": "r_multiple",
+      "short_value": 1.0,
+      "long_value": 1.5
+    },
+    "position_size": {
+      "type": "fixed",
+      "base_size": 200,
+      "max_size": 600
+    },
+    "pyramiding": {
+      "enabled": true,
+      "max_legs": 3,
+      "add_conditions": [
+        {
+          "level": "initial",
+          "size": 200,
+          "condition": "Initial signal trigger"
+        },
+        {
+          "level": "add_short",
+          "size": 200,
+          "condition": "Price extends 0.4% against short position",
+          "max_extension": 0.8
+        },
+        {
+          "level": "add_long",
+          "size": 200,
+          "condition": "Price pulls back 0.3% in favor of long position",
+          "max_pullback": 0.6
+        }
+      ],
+      "max_position_size": 600
+    },
+    "time_filters": {
+      "entry_start": "09:30",
+      "entry_end": "15:30",
+      "exit_deadline": "15:55",
+      "avoid_fomc": true,
+      "avoid_earnings": true
+    }
+  },
+  "quality_filters": {
+    "min_volume": 1000000,
+    "max_spread": 0.1,
+    "trend_filter": "none",
+    "volatility_filter": "normal",
+    "market_regime": "neutral_to_bullish"
+  },
+  "performance_targets": {
+    "expected_win_rate": 65,
+    "min_trades_per_week": 8,
+    "max_drawdown": 5,
+    "profit_factor_target": 1.8,
+    "expectancy_target": 0.6
+  },
+  "notes": {
+    "market_context": "Last week (Sept 23-27) showed QQQ trading in range with mean reversion characteristics",
+    "key_levels": "Support at 588-590, Resistance at 598-600",
+    "volatility": "Moderate, suitable for 5min timeframe",
+    "liquidity": "Excellent, no issues with 600 share positions",
+    "optimization": "Focus on VWAP accuracy and timing of gap fades"
+  }
+}

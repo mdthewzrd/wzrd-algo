@@ -1,0 +1,46 @@
+{
+  "strategy_name": "SPY_RouteStart_DevBands_Validated",
+  "description": "SPY EMA crossover with deviation band route start and 1hr confirmation",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 10:15:00",
+      "price": 548.75,
+      "shares": 100,
+      "reason": "EMA crossover with 1hr confirmation and deviation band route start",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 12:45:00",
+      "price": 555.50,
+      "shares": 100,
+      "reason": "Price reached upper deviation band (route end)",
+      "direction": "close_long",
+      "pnl": 675.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover_with_route_start",
+      "description": "EMA crossover with 1hr confirmation and deviation band touch",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h AND Low_1h <= DevBand72_1h_Lower_6",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "deviation_band_exit",
+      "description": "Price reaches upper deviation band",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    }
+  ]
+}

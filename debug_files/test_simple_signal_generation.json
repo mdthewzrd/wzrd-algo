@@ -1,0 +1,84 @@
+{
+  "strategy_name": "SPY_Simple_Test_Always_Signals",
+  "description": "Ultra simple test - should generate signals every day",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 09:35:00",
+      "price": 575.25,
+      "shares": 100,
+      "reason": "Test entry - price above 500",
+      "direction": "long",
+      "position_id": "pos_1",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 10:35:00",
+      "price": 577.50,
+      "shares": 100,
+      "reason": "Test exit - 1 hour later",
+      "direction": "close_long",
+      "position_id": "pos_1",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market",
+      "pnl": 225.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 09:35:00",
+      "price": 573.80,
+      "shares": 100,
+      "reason": "Test entry - price above 500",
+      "direction": "long",
+      "position_id": "pos_2",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 10:35:00",
+      "price": 576.10,
+      "shares": 100,
+      "reason": "Test exit - 1 hour later",
+      "direction": "close_long",
+      "position_id": "pos_2",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market",
+      "pnl": 230.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "simple_price_test",
+      "description": "Enter long when price is above $500 (should always be true for SPY)",
+      "direction": "long",
+      "condition": "Close_5min > 500",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "simple_time_exit",
+      "description": "Exit after 1 hour",
+      "direction": "close_long",
+      "condition": "time_since_entry > 60_minutes"
+    }
+  ],
+  "performance_metrics": {
+    "total_pnl": 455.0,
+    "total_trades": 2,
+    "win_rate": 100.0
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "strategy_name": "QQQ_Simple_Last_Week",
+  "description": "Simple QQQ strategy for last week (Sept 23-27, 2025) - fade morning gaps and VWAP reversals",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "entry_conditions": [
+    {
+      "type": "morning_gap_short",
+      "description": "Short when QQQ gaps up > 1% in the morning",
+      "direction": "short",
+      "indicators": ["vwap", "rsi"],
+      "gap_threshold": 1.0,
+      "time_window": "09:30-10:30"
+    },
+    {
+      "type": "vwap_support_long",
+      "description": "Long when QQQ pulls back to VWAP with RSI < 40",
+      "direction": "long",
+      "indicators": ["vwap", "rsi"],
+      "rsi_threshold": 40,
+      "time_window": "10:00-15:00"
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "vwap_target",
+      "description": "Exit when price returns to VWAP",
+      "direction": "exit_all"
+    },
+    {
+      "type": "stop_loss",
+      "description": "1% stop loss for all positions",
+      "stop_percentage": 1.0
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {"type": "percentage", "value": 1.0},
+    "position_size": {"type": "fixed", "value": 300},
+    "pyramiding": {"enabled": false}
+  }
+}
