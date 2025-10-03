@@ -57,3 +57,7 @@ debug_*.py
 # Output files that are too large
 *_codified.json
 test_outputs/*.json
+
+# Deployment
+.vercel
+node_modules
