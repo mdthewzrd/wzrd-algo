@@ -1,0 +1,54 @@
+﻿<Window x:Class="OsEngine.Market.AutoFollow.CopyTraderUi"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OsEngine.Market.AutoFollow"
+        mc:Ignorable="d"
+        Title="Copy trader " Height="500" Width="700" MinWidth="400" MinHeight="300" WindowStartupLocation="CenterScreen" Style="{StaticResource WindowStyleCanResize}" Icon="/Images/OsLogo.ico">
+    <Grid Name="GridPrime">
+
+        <Grid Name="GridFollowSettings">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="185*"/>
+                <RowDefinition Height="185*"/>
+            </Grid.RowDefinitions>
+
+            <Label Name="LabelIsOn" Content="Is On" HorizontalAlignment="Center" Margin="-150,10,0,0" VerticalAlignment="Top" Height="23" Width="137"/>
+            <ComboBox Name="ComboBoxIsOn" HorizontalAlignment="Center" Margin="125,10,0,0" VerticalAlignment="Top" Width="120" Height="23"/>
+            <Label Name="LabelName" Content="Name" HorizontalAlignment="Center" Margin="-150,38,0,0" VerticalAlignment="Top" Height="23" Width="137"/>
+            <TextBox Name="TextBoxName" HorizontalAlignment="Center" Margin="125,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Height="23"/>
+
+            <Rectangle Margin="2,2,2,2" Grid.Row="1" Stroke="Black"/>
+            <Label Name="LabelRobotsGrid" Content="Master robots" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+            <WindowsFormsHost Name="HostRobots" Margin="5,23,5,5" Grid.Row="1"/>
+            <Button Name="ButtonRobotsGridUp" Content="^" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Height="18" Width="25" Grid.Row="1" Click="ButtonRobotsGridUp_Click" RenderTransformOrigin="0.5,0.5" >
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+            <Button Name="ButtonRobotsGridDown" Content="^" HorizontalAlignment="Right" Margin="0,5,40,0" VerticalAlignment="Top" Height="18" Width="25" Grid.Row="1" RenderTransformOrigin="0.5,0.5" Click="ButtonRobotsGridDown_Click" />
+            <Rectangle Margin="2,2,2,2" Grid.Row="2" Stroke="Black"/>
+            <Label Name="LabelSlaveGrid" Content="Slave connectors and portfolios" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Row="2"/>
+            <WindowsFormsHost Name="HostSlaves" Margin="5,23,5,5" Grid.Row="2"/>
+            <Button Name="ButtonSlaveGridUp" Content="^" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Height="18" Width="25" Grid.Row="2" Click="ButtonSlaveGridUp_Click" RenderTransformOrigin="0.5,0.5" >
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="-180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+            <Button Name="ButtonSlaveGridDown" Content="^" HorizontalAlignment="Right" Margin="0,5,40,0" VerticalAlignment="Top" Height="18" Width="25" Grid.Row="2" RenderTransformOrigin="0.5,0.5" Click="ButtonSlaveGridDown_Click" />
+
+        </Grid>
+    </Grid>
+</Window>

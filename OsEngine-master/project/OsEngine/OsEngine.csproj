@@ -1,0 +1,258 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <ExpressionBlendVersion>12.0.41002.1</ExpressionBlendVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>OsLogo.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AssemblyVersion>2.0.0.5</AssemblyVersion>
+    <PackageOutputPath>$(OutputPath)\</PackageOutputPath>
+    <FileVersion>2.0.0.5</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+   <OutputPath>bin\Debug\</OutputPath>
+   <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+   <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+   <OutputPath>bin\Release\</OutputPath>
+   <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+   <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+  <Target Name="RemoveSatelliteAssemblies" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+        <ReferenceCopyLocalPaths Remove="@(ReferenceSatellitePaths)" />
+    </ItemGroup>
+  </Target>
+  <Target Name="FilterPublishSatelliteResources" AfterTargets="RunResolvePublishAssemblies" Condition="'$(SatelliteResourceLanguages)' != ''">
+
+    <ItemGroup>
+      <PublishSatelliteResources Include="@(ResolvedAssembliesToPublish)" Condition="'%(ResolvedAssembliesToPublish.AssetType)' == 'resources'" />
+    </ItemGroup>
+
+    <JoinItems Left="@(PublishSatelliteResources)" LeftKey="Culture" LeftMetadata="*" Right="$(SatelliteResourceLanguages)" RightKey="" RightMetadata="" ItemSpecToUse="Left">
+      <Output TaskParameter="JoinResult" ItemName="FilteredPublishSatelliteResources" />
+    </JoinItems>
+
+    <ItemGroup Condition="'@(PublishSatelliteResources)' != ''">
+      <ResolvedAssembliesToPublish Remove="@(PublishSatelliteResources)" />
+      <ResolvedAssembliesToPublish Include="@(FilteredPublishSatelliteResources)" />
+    </ItemGroup>
+  </Target>
+  <ItemGroup>
+    <Compile Remove="lua\**" />
+    <EmbeddedResource Remove="lua\**" />
+    <None Remove="lua\**" />
+    <Page Remove="lua\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="BytesRoad.Net.Ftp">
+      <HintPath>bin\Debug\BytesRoad.Net.Ftp.dll</HintPath>
+    </Reference>
+    <Reference Include="BytesRoad.Net.Sockets">
+      <HintPath>bin\Debug\BytesRoad.Net.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="cgate_net64">
+      <HintPath>bin\Debug\cgate_net64.dll</HintPath>
+    </Reference>
+    <Reference Include="FinamApi">
+      <HintPath>bin\Debug\FinamApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Jayrock.Json">
+      <HintPath>bin\Debug\Jayrock.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="LiteDB, Version=5.0.19.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenFAST">
+      <HintPath>bin\Debug\OpenFAST.dll</HintPath>
+    </Reference>
+    <Reference Include="QUIKSharp">
+      <HintPath>bin\Debug\QuikSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>bin\Debug\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine">
+      <HintPath>bin\Debug\SuperSocket.ClientEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="TInvestApi">
+      <HintPath>bin\Debug\TInvestApi.dll</HintPath>
+    </Reference>
+    <Reference Include="WebSocket4Net">
+      <HintPath>bin\Debug\WebSocket4Net.dll</HintPath>
+    </Reference>
+    <Reference Update="System.Runtime.Serialization">
+      <Private>True</Private>
+    </Reference>
+    <PackageReference Include="Google.Api.CommonProtos" Version="2.16.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.71.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.31.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="9.0.5" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.5" />
+    <PackageReference Include="System.Threading.Channels" Version="9.0.5" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Http" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="8.1.2" />
+    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="8.1.2" />
+    <PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
+    <PackageReference Include="WTelegramClient" Version="4.3.4" />
+  </ItemGroup>
+  <ItemGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <Content Include="bin\$(Configuration)\libcrypto-3-x64.dll">
+      <Link>libcrypto-3-x64.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="bin\$(Configuration)\libssl-3-x64.dll">
+      <Link>libssl-3-x64.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="bin\Debug\libcrypto-3-x64.dll" />
+    <Content Remove="bin\Debug\libssl-3-x64.dll" />
+    <Content Remove="bin\Release\libcrypto-3-x64.dll" />
+    <Content Remove="bin\Release\libssl-3-x64.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Images\MainWIndow\flag_eng.png" />
+    <None Remove="Images\MainWIndow\flag_ru.png" />
+    <None Remove="Images\MainWIndow\tbank.mp4" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainWIndow\flag_eng.png" />
+    <Resource Include="Images\MainWIndow\flag_ru.png" />
+    <Resource Include="Images\OsLogo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль .NET Framework 3.5 с пакетом обновления 1 %28SP1%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainWIndow\test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainWIndow\data.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainWIndow\Trading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pickDownSize1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pickDownSize4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pickUpSize1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pickUpSize4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pickDownSize2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pickDownSize3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pickUpSize2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\pickUpSize3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainWIndow\gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\padlockClosed.png" />
+    <Resource Include="Images\padlockOpened.png" />
+    <Resource Include="Images\eye.png" />
+    <Resource Include="Images\eyeBig.png" />
+    <Content Include="Images\MainWIndow\tbank.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\generateButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\OsEngine_logo_transpared.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Support\No.png" />
+    <Resource Include="Images\Support\Prime.png" />
+    <Resource Include="Images\Support\Standart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="OsLogo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+    <Folder Include="bin\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+</Project>

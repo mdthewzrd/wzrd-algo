@@ -1,0 +1,96 @@
+﻿<Window x:Class="OsEngine.OsTrader.Panels.Tab.BotTabPairUi"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OsEngine.OsTrader.Panels.Tab"
+        mc:Ignorable="d"
+ Title="Pair Trader"  Height="690" Width="1263" MinHeight="550" MinWidth="700" Style="{StaticResource WindowStyleCanResize}" WindowStartupLocation="CenterScreen" Icon="/Images/OsLogo.ico">
+    <Grid Name="GridPrime">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Name="GridTradePanel" Margin="0,0,0,235" HorizontalAlignment="Right" Width="305">
+            <Rectangle Stroke="Black" Margin="0,0,0,0"/>
+
+            <Label Name="LabelSec1Volume" Content="Volume" HorizontalAlignment="Left" Margin="11,30,0,0" VerticalAlignment="Top"/>
+            <ComboBox Name="ComboBoxSec1Volume" HorizontalAlignment="Left" Margin="107,30,0,0" VerticalAlignment="Top" Width="106"/>
+            <TextBox Name="TextBoxSec1Volume" Margin="221,30,9,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+            <Label Name="LabelSec1Slippage" Content="Slippage" HorizontalAlignment="Left" Margin="11,53,0,0" VerticalAlignment="Top"/>
+            <ComboBox Name="ComboBoxSec1Slippage"  HorizontalAlignment="Left" Margin="107,53,0,0" VerticalAlignment="Top" Width="106"/>
+            <TextBox Name="TextBoxSec1Slippage" Margin="221,53,9,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+
+            <Label Name="LabelSec1Position" Content="Position" HorizontalAlignment="Left" Margin="11,99,0,0" VerticalAlignment="Top"/>
+            <TextBox Name="TextBoxSec1Position" Margin="108,99,93,0" TextWrapping="Wrap"  VerticalAlignment="Top"/>
+
+            <Label Name="LabelSec2Volume" Content="Volume" HorizontalAlignment="Left" Margin="10,177,0,0" VerticalAlignment="Top"/>
+            <ComboBox Name="ComboBoxSec2Volume" HorizontalAlignment="Left" Margin="106,177,0,0" VerticalAlignment="Top" Width="106"/>
+            <TextBox Name="TextBoxSec2Volume" Margin="220,177,9,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+            <Label Name="LabelSec2Slippage" Content="Slippage" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top"/>
+            <ComboBox Name="ComboBoxSec2Slippage" HorizontalAlignment="Left" Margin="106,200,0,0" VerticalAlignment="Top" Width="106"/>
+            <TextBox Name="TextBoxSec2Slippage"  Margin="220,200,9,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+            <Label Name="LabelSec2Position" Content="Position" HorizontalAlignment="Left" Margin="10,247,0,0" VerticalAlignment="Top"/>
+            <TextBox Name="TextBoxSec2Position" Margin="107,247,93,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+            <Button Name="ButtonBuy1Sell2" Content="Buy 1 Sell 2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="285" Margin="0,283,0,0" />
+            <Button Name="ButtonBuy2Sell1" Content="Sell 1 Buy 2" HorizontalAlignment="Center" Margin="0,308,0,0" VerticalAlignment="Top" Width="285"/>
+            <Button Name="ButtonClosePositions" Content="Close all poses" HorizontalAlignment="Center" Margin="0,333,0,0" VerticalAlignment="Top" Width="285"/>
+
+            <Button Name="ButtonSec1Connection" Content="Security 1. BTCUSDT. 1Min. BinanceFutures" VerticalAlignment="Top" Margin="10,0,10,0"/>
+            <Button Name="ButtonSec2Connection" Content="Security 2. ETHUSDT. 1Min. BitGet" VerticalAlignment="Top" Margin="11,147,9,0"/>
+            <Label Name="LabelSec1Regime" Content="Regime" HorizontalAlignment="Left" Margin="11,76,0,0" VerticalAlignment="Top"/>
+            <ComboBox Name="ComboBoxSec1Regime"  HorizontalAlignment="Left" Margin="107,76,0,0" VerticalAlignment="Top" Width="106"/>
+            <Label Name="LabelSec2Regime" Content="Regime" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top"/>
+            <ComboBox Name="ComboBoxSec2Regime"  HorizontalAlignment="Left" Margin="106,224,0,0" VerticalAlignment="Top" Width="106"/>
+            <Button Name="ButtonPairJournal" Content="Journal" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Width="285"/>
+
+
+        </Grid>
+        <Grid Name="GridIndicatorsSettings" Height="233" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="305">
+            <Rectangle Stroke="Black" Margin="0,0,0,0"/>
+            <Label Name="LabelCorrelation" Content="Correlation" HorizontalAlignment="Left" Margin="32,10,0,0" VerticalAlignment="Top" FontSize="18"/>
+            <TextBox Name="TextBoxCorrelationLookBack" HorizontalAlignment="Left" Margin="151,38,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+            <Label Name="LabelCorrelationLookBack" Content="Look back" HorizontalAlignment="Left" Margin="65,38,0,0" VerticalAlignment="Top"/>
+            <Button Name="ButtonCorrelationReload" Content="Reload" HorizontalAlignment="Left" Margin="151,66,0,0" VerticalAlignment="Top" Width="120"/>
+
+            <Label Name="LabelCointegration" Content="Cointegration" HorizontalAlignment="Left" Margin="32,101,0,0" VerticalAlignment="Top" FontSize="18"/>
+            <TextBox Name="TextBoxCointegrationDeviation" HorizontalAlignment="Left" Margin="151,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+            <Label Name="LabelCointegrationDeviation" Content="Deviation" HorizontalAlignment="Left" Margin="65,137,0,0" VerticalAlignment="Top"/>
+
+            <TextBox Name="TextBoxCointegrationLookBack" HorizontalAlignment="Left" Margin="151,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
+            <Label Name="LabelCointegrationLookBack" Content="Look back" HorizontalAlignment="Left" Margin="65,165,0,0" VerticalAlignment="Top"/>
+            <Button Name="ButtonCointegrationReload" Content="Reload" HorizontalAlignment="Left" Margin="151,193,0,0" VerticalAlignment="Top" Width="120"/>
+            <CheckBox Name="CheckBoxCorrelationAutoIsOn" Content="Auto" HorizontalAlignment="Left" Margin="151,10,0,0" VerticalAlignment="Top"/>
+            <CheckBox Name="CheckBoxCointegrationAutoIsOn" Content="Auto" HorizontalAlignment="Left" Margin="152,101,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid Name="GreedChartPanel" Margin="0,0,308,0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Name="GridSecurities" Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <WindowsFormsHost Name="HostSec1" Margin="0,0,0,0"/>
+                <WindowsFormsHost Name="HostSec2" Grid.Row="1" Margin="0,0,0,0"/>
+            </Grid>
+
+            <Grid Name="GridIndicators" Grid.Row="1" Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <WindowsFormsHost Name="HostCorrelation" Margin="0,0,0,0"/>
+                <WindowsFormsHost Name="HostCointegration" Grid.Row="1" Margin="0,0,0,0"/>
+            </Grid>
+        </Grid>
+        <Button Name="ButtonHideShowRightPanel" Content=">" Margin="0,40,0,40" Height="NaN" HorizontalAlignment="Right" Width="15"/>
+    </Grid>
+</Window>

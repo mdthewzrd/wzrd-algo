@@ -1,0 +1,28 @@
+﻿<Window x:Class="OsEngine.Market.ServerMasterUi"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Router" Height="650" Width="600" WindowStartupLocation="CenterScreen" Style="{StaticResource WindowStyleCanResize}" Icon="/Images/OsLogo.ico">
+    <Grid>
+        <TabControl Foreground="Black" Margin="0,0,0,0">
+            <TabItem Name="TabItem1" Header=" Servers ">
+                <Grid>
+                    <WindowsFormsHost Name="HostSource" Foreground="Black" Margin="0,35,0,31"/>
+                    <CheckBox Name="CheckBoxServerAutoOpen" Content="Deploy servers automatically" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,3"/>
+                    <Button Name="ButtonSupportTable" Content="Support table" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Bottom" Width="179" Click="ButtonSupportTable_Click"/>
+                    <TextBox Name="TextBoxSearchSource" TextWrapping="Wrap" Text="search..." VerticalAlignment="Top" HorizontalAlignment="Left" Width="166" Margin="127,4,0,0"/>
+                    <Button Name="ButtonRightInSearchResults" Content="&gt;" HorizontalAlignment="Left" Margin="414,6,0,0" VerticalAlignment="Top" Width="23" Height="20"/>
+                    <Button Name="ButtonLeftInSearchResults" Content="&lt;" HorizontalAlignment="Left" Margin="309,6,0,0" VerticalAlignment="Top" Width="23" Height="20"/>
+                    <Label Name="LabelCurrentResultShow" Content="1" HorizontalAlignment="Left" Margin="346,6,0,0" VerticalAlignment="Top" Height="20"/>
+                    <Label Name="LabelCommasResultShow" Content="...." HorizontalAlignment="Left" Margin="361,6,0,0" VerticalAlignment="Top" Height="20"/>
+                    <Label Name="LabelCountResultsShow" Content="8" HorizontalAlignment="Left" Margin="380,6,0,0" VerticalAlignment="Top" Height="20"/>
+                </Grid>
+            </TabItem>
+            <TabItem Name="TabItem2" Header=" Logging ">
+                <Grid>
+                    <WindowsFormsHost Name="HostLog" Foreground="Black" Margin="0,0,0,0"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

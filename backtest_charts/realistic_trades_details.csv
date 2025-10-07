@@ -1,0 +1,7 @@
+trade_id,entry_time,exit_time,entry_price,exit_price,pnl,pnl_pct,entry_idx,exit_idx,entry_reason,exit_reason
+1,2025-09-08 14:35:32.441906,2025-09-10 14:35:32.441906,544.88,582.11,3723.0,6.83,7,11,close_price_fill,close_price_fill
+2,2025-09-12 10:35:32.441906,2025-09-14 10:35:32.441906,312.68,315.48,280.0,0.9,14,18,close_price_fill,close_price_fill
+3,2025-09-15 14:35:32.441906,2025-09-20 10:35:32.441906,580.81,305.25,-27556.0,-47.44,21,30,close_price_fill,close_price_fill
+4,2025-09-19 10:35:32.441906,2025-09-21 10:35:32.441906,307.06,296.64,-1042.0,-3.39,28,32,close_price_fill,close_price_fill
+5,2025-09-22 14:35:32.441906,2025-09-27 10:35:32.441906,581.81,301.52,-28029.0,-48.18,35,44,close_price_fill,close_price_fill
+6,2025-09-26 10:35:32.441906,2025-09-29 14:35:32.441906,302.31,575.99,27368.0,90.53,42,49,close_price_fill,close_price_fill

@@ -1,0 +1,22 @@
+﻿<Window x:Class="OsEngine.Market.AutoFollow.CopyMasterUi"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OsEngine.Market.AutoFollow"
+        mc:Ignorable="d"
+        Title="Auto follow master. В работе" Height="500" Width="700" MinWidth="400" MinHeight="300" WindowStartupLocation="CenterScreen" Style="{StaticResource WindowStyleCanResize}" Icon="/Images/OsLogo.ico">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="331*"/>
+            <RowDefinition Height="267*"/>
+        </Grid.RowDefinitions>
+        
+        <Label Name="LabelCopyTraders" Content="Copy traders" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+        <WindowsFormsHost Name="HostCopyTraders" Margin="5,23,5,5"/>
+        
+        <WindowsFormsHost Name="HostLog" Margin="5,23,5,5" Grid.Row="1"/>
+        <Label Name="LabelLog" Content="Log" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
