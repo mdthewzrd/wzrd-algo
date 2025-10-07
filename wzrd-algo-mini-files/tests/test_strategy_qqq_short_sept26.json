@@ -1,0 +1,60 @@
+{
+  "strategy_name": "QQQ 5min Mean Reversion Short Strategy - Sept 26",
+  "description": "Short QQQ when price extends too far above VWAP, cover when it returns to VWAP",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "entry_conditions": [
+    {
+      "type": "price_level",
+      "description": "Price extends 1%+ above VWAP with weakening momentum",
+      "direction": "short",
+      "indicators": [
+        "vwap",
+        "rsi"
+      ]
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "price_level",
+      "description": "Price returns to VWAP or profit target hit",
+      "direction": "close_short"
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 0.75
+    },
+    "take_profit": {
+      "type": "percentage",
+      "value": 1.5
+    },
+    "position_size": {
+      "type": "fixed",
+      "value": 300
+    }
+  },
+  "signals": [],
+  "performance_metrics": {
+    "total_trades": 0,
+    "winning_trades": 0,
+    "losing_trades": 0,
+    "win_rate": 0,
+    "total_pnl": 0,
+    "profit_factor": 0,
+    "expectancy_per_r": 0,
+    "max_drawdown": 0,
+    "average_win": 0,
+    "average_loss": 0,
+    "largest_win": 0,
+    "largest_loss": 0
+  },
+  "provenance": {
+    "generated_by": "rules_engine",
+    "data_source": "intraday_ohlcv",
+    "rule_version": "v1.0.0",
+    "generation_timestamp": "2025-10-01T10:17:15.718825",
+    "code_hash": "303c1c24"
+  }
+}

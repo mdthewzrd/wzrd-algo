@@ -1,0 +1,59 @@
+{
+  "strategy_name": "SPY_DevBand_Clean",
+  "description": "Clean deviation band strategy for Sept 30",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-09-30 09:35:00",
+      "price": 573.15,
+      "shares": 100,
+      "reason": "EMA crossover with deviation band support",
+      "direction": "long",
+      "position_id": "pos_1",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-09-30 11:20:00",
+      "price": 576.85,
+      "shares": 100,
+      "reason": "Upper deviation band target",
+      "direction": "close_long",
+      "position_id": "pos_1",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "execution": "market",
+      "pnl": 370.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover",
+      "description": "EMA 9 crosses above EMA 20",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND EMA9_1h > EMA20_1h",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "target_exit",
+      "description": "Target reached",
+      "direction": "close_long",
+      "condition": "price_target"
+    }
+  ],
+  "performance_metrics": {
+    "total_pnl": 370.0,
+    "total_trades": 1,
+    "win_rate": 100.0
+  }
+}

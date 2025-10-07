@@ -1,0 +1,114 @@
+{
+  "strategy_name": "SPY_Test_Strategy_MTF",
+  "description": "Test strategy with multiple entry/exit signals for demonstration",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-09-30 10:15:00",
+      "price": 572.25,
+      "shares": 100,
+      "reason": "EMA 9 crosses above EMA 20 with 1hr confirmation",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-09-30 11:45:00",
+      "price": 574.80,
+      "shares": 100,
+      "reason": "EMA 9 crosses below EMA 20",
+      "direction": "close_long",
+      "pnl": 255.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-09-30 13:30:00",
+      "price": 573.90,
+      "shares": 100,
+      "reason": "Route start: Low touched DevBand72 lower with 1hr confirmation",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-09-30 14:15:00",
+      "price": 575.45,
+      "shares": 100,
+      "reason": "Route end: High reached DevBand72 upper",
+      "direction": "close_long",
+      "pnl": 155.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 09:45:00",
+      "price": 571.15,
+      "shares": 100,
+      "reason": "Daily gate: EMA 9/20 bullish on all timeframes",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 12:30:00",
+      "price": 573.25,
+      "shares": 100,
+      "reason": "EMA crossunder with volume confirmation",
+      "direction": "close_long",
+      "pnl": 210.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 14:00:00",
+      "price": 572.80,
+      "shares": 100,
+      "reason": "Bounce off EMA 20 with momentum",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 15:15:00",
+      "price": 574.95,
+      "shares": 100,
+      "reason": "End of day exit - resistance at high",
+      "direction": "close_long",
+      "pnl": 215.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover_with_mtf_confirmation",
+      "description": "EMA 9 crosses above EMA 20 on 5min with 1hr confirmation",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    },
+    {
+      "type": "route_start_entry",
+      "description": "Price touches lower deviation band with MTF confirmation",
+      "direction": "long",
+      "condition": "Low_1h <= DevBand72_1h_Lower_6 AND EMA9_5min > EMA20_5min AND EMA9_1h > EMA20_1h",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover_exit",
+      "description": "EMA 9 crosses below EMA 20 on 5min",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    },
+    {
+      "type": "route_end_exit",
+      "description": "Price reaches upper deviation band",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    }
+  ]
+}

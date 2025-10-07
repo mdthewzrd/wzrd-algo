@@ -1,0 +1,126 @@
+{
+  "strategy_name": "SPY_DevBand_EMA_9_20_Strategy_Current",
+  "description": "Deviation band strategy with EMA 9/20 crossovers for SPY with current timestamps",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2025-10-02 09:35:00",
+      "price": 573.15,
+      "shares": 100,
+      "reason": "EMA 9 crosses above EMA 20 with price near lower deviation band - route start entry",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2025-10-02 11:20:00",
+      "price": 576.85,
+      "shares": 100,
+      "reason": "Price reached upper deviation band - route end target",
+      "direction": "close_long",
+      "pnl": 370.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2025-10-02 10:15:00",
+      "price": 574.60,
+      "shares": 100,
+      "reason": "EMA crossover continuation with 1hr confirmation and deviation band support",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2025-10-02 12:45:00",
+      "price": 577.40,
+      "shares": 100,
+      "reason": "Upper deviation band resistance reached",
+      "direction": "close_long",
+      "pnl": 280.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2025-10-02 14:00:00",
+      "price": 576.20,
+      "shares": 100,
+      "reason": "Afternoon pullback to deviation band support with EMA confirmation",
+      "direction": "short"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2025-10-02 15:15:00",
+      "price": 574.10,
+      "shares": 100,
+      "reason": "Lower deviation band target reached",
+      "direction": "close_short",
+      "pnl": 210.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "devband_route_start_long",
+      "description": "Route start: EMA 9 crosses above EMA 20 with price at lower deviation band",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h AND Low_1h <= DevBand72_1h_Lower_6",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    },
+    {
+      "type": "devband_continuation_long",
+      "description": "Deviation band continuation: EMA crossover with band support",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h AND Close_1h <= DevBand89_1h_Lower_6",
+      "time_filter": {
+        "start": "09:30",
+        "end": "12:00",
+        "timezone": "America/New_York"
+      }
+    },
+    {
+      "type": "devband_reversal_short",
+      "description": "Deviation band reversal: Short at upper band with EMA confirmation",
+      "direction": "short",
+      "condition": "EMA9_5min < EMA20_5min AND previous_EMA9_5min >= previous_EMA20_5min AND High_1h >= DevBand72_1h_Upper_6",
+      "time_filter": {
+        "start": "13:30",
+        "end": "15:30",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "devband_route_end_target",
+      "description": "Route end: Price reaches upper deviation band target",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    },
+    {
+      "type": "devband_resistance_exit",
+      "description": "Upper deviation band resistance exit",
+      "direction": "close_long",
+      "condition": "Close_1h >= DevBand89_1h_Upper_6"
+    },
+    {
+      "type": "devband_support_target",
+      "description": "Lower deviation band support target for shorts",
+      "direction": "close_short",
+      "condition": "Low_1h <= DevBand72_1h_Lower_6"
+    },
+    {
+      "type": "ema_crossover_exit",
+      "description": "EMA crossover exit fallback",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    },
+    {
+      "type": "ema_crossover_cover",
+      "description": "EMA crossover cover for shorts",
+      "direction": "close_short",
+      "condition": "EMA9_5min > EMA20_5min"
+    }
+  ]
+}

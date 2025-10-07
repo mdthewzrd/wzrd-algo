@@ -1,0 +1,63 @@
+{
+  "strategy_name": "Simple_EMA_9_20_Crossover",
+  "description": "Simple EMA 9/20 crossover strategy for QQQ",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "entry_conditions": [
+    {
+      "type": "ema_crossover",
+      "description": "EMA 9 crosses above EMA 20",
+      "direction": "long",
+      "indicators": ["ema9", "ema20"],
+      "condition": "EMA 9 > EMA 20 and previous EMA 9 <= previous EMA 20"
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover_exit",
+      "description": "EMA 9 crosses below EMA 20",
+      "direction": "close_long",
+      "condition": "EMA 9 < EMA 20"
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 2.0
+    },
+    "take_profit": {
+      "type": "percentage",
+      "value": 4.0
+    },
+    "position_size": {
+      "type": "fixed_dollar",
+      "value": 1000
+    },
+    "pyramiding": {
+      "enabled": false
+    }
+  },
+  "indicators": {
+    "ema9": {
+      "type": "exponential_moving_average",
+      "period": 9
+    },
+    "ema20": {
+      "type": "exponential_moving_average",
+      "period": 20
+    }
+  },
+  "market_conditions": {
+    "time_filters": {
+      "start_time": "09:30",
+      "end_time": "15:45",
+      "timezone": "US/Eastern"
+    }
+  },
+  "backtest_settings": {
+    "start_date": "2024-09-01",
+    "end_date": "2024-10-01",
+    "commission": 0.005,
+    "slippage": 0.01
+  }
+}

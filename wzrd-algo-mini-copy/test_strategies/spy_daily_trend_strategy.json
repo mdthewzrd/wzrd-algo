@@ -1,0 +1,33 @@
+{
+  "strategy_name": "SPY_Daily_Trend_EMA_Cross",
+  "description": "Daily trend following with EMA 9/20 crossovers for SPY",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover",
+      "description": "EMA 9 crosses above EMA 20",
+      "direction": "long",
+      "condition": "EMA9 > EMA20",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover",
+      "description": "EMA 9 crosses below EMA 20",
+      "direction": "close_long",
+      "condition": "EMA9 < EMA20"
+    }
+  ],
+  "performance_metrics": {
+    "total_pnl": 0.0,
+    "total_trades": 0,
+    "win_rate": 0.0
+  }
+}

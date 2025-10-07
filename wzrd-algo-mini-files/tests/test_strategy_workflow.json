@@ -1,0 +1,48 @@
+{
+  "strategy_name": "Test_QQQ_Mean_Reversion",
+  "description": "Simple mean reversion test strategy",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "entry_conditions": [
+    {
+      "type": "price_level",
+      "description": "Price extends above VWAP with overbought RSI",
+      "direction": "short",
+      "indicators": [
+        "vwap",
+        "rsi",
+        "volume"
+      ],
+      "conditions": [
+        "Price > 1% above VWAP",
+        "RSI > 70",
+        "Volume > 1.5x average volume"
+      ]
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "price_level",
+      "description": "Price returns to VWAP",
+      "direction": "close_short",
+      "conditions": [
+        "Price <= VWAP",
+        "OR price reaches profit target"
+      ]
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 1.0
+    },
+    "take_profit": {
+      "type": "r_multiple",
+      "value": 2.0
+    },
+    "position_size": {
+      "type": "r_based",
+      "value": 1.0
+    }
+  }
+}

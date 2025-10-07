@@ -1,0 +1,155 @@
+name: Vibe to Product Parallel Workflow
+version: 3.0.0
+description: Three-phase workflow prioritizing momentum - Vibe (prototype) → Build (architecture) → Ship (production)
+
+methodology: |
+  The Vibe to Product Method combats project fatigue by getting a working prototype
+  in 1-2 hours, then building architecture only for validated ideas, finally using
+  parallel specialists to ship production-ready applications.
+
+phases:
+  - name: Phase 1 - VIBE (Rapid Prototype)
+    duration: 1-2 hours
+    parallel: false
+    environment: web_chat_or_claude_code_chat
+    agents:
+      - webapp-maestro  # Leads the Vibe phase
+      - dev  # In Vibe mode for rapid components
+    tasks:
+      - identify_core_user_story
+      - create_ui_components_with_dummy_data
+      - build_complete_user_flow
+      - use_hardcoded_json_data
+      - focus_on_visual_design
+      - create_interactive_prototype
+    deliverables:
+      - working_frontend_prototype
+      - visual_user_journey
+      - dummy_data_structure
+    principles:
+      - speed_over_perfection
+      - momentum_over_planning
+      - visual_progress_every_hour
+      - no_backend_complexity
+
+  - name: Phase 2 - BUILD (Architecture Design)
+    duration: 1-2 days
+    parallel: false
+    environment: web_chat_or_claude_code
+    trigger: prototype_approved_by_user
+    agents:
+      - architect  # Central figure for Build phase
+      - pm  # Optional on-demand consultant
+    tasks:
+      - analyze_frontend_prototype
+      - extract_data_requirements_from_ui
+      - design_database_schema
+      - create_api_specifications
+      - plan_authentication_system
+      - design_backend_architecture
+    deliverables:
+      - complete_backend_design
+      - api_endpoint_specifications
+      - database_schema
+      - authentication_plan
+      - deployment_architecture
+    principles:
+      - frontend_defines_requirements
+      - prototype_is_living_prd
+      - architecture_fits_existing_ui
+      - no_over_engineering
+
+  - name: Phase 3 - SHIP (Parallel Production)
+    duration: varies
+    parallel: true  # Multiple specialists work simultaneously
+    environment: claude_code_with_file_access
+    trigger: architecture_approved
+    
+    teams:
+      backend_team:
+        agents:
+          - webapp-api-architect
+          - webapp-database-designer
+          - webapp-auth-specialist
+        tasks:
+          - implement_api_endpoints
+          - create_database_with_convex
+          - setup_clerk_authentication
+          - connect_billing_integration
+      
+      frontend_team:
+        agents:
+          - webapp-component-architect
+          - webapp-ui-designer
+          - webapp-performance-optimizer
+        tasks:
+          - replace_dummy_data_with_api_calls
+          - polish_ui_components
+          - optimize_performance
+          - ensure_mobile_responsiveness
+      
+      infrastructure_team:
+        agents:
+          - webapp-deployment-expert
+          - webapp-monetization-strategist
+        tasks:
+          - setup_vercel_deployment
+          - configure_edge_functions
+          - implement_analytics
+          - setup_revenue_tracking
+
+    integration_points:
+      - frontend_backend_connection
+      - auth_integration
+      - payment_processing
+      - deployment_pipeline
+
+coordination:
+  phase_transitions:
+    vibe_to_build:
+      trigger: user_loves_prototype
+      handoff: prototype_and_dummy_data_structure
+    
+    build_to_ship:
+      trigger: architecture_complete
+      handoff: architectural_blueprints_and_api_specs
+  
+  parallel_coordination:
+    method: orchestrator_managed
+    sync_frequency: on_milestone_completion
+    conflict_resolution: team_lead_decision
+
+  communication:
+    vibe_phase: rapid_conversational
+    build_phase: structured_documentation
+    ship_phase: parallel_with_sync_points
+
+quality_gates:
+  - phase: VIBE
+    criteria:
+      - prototype_demonstrates_core_value
+      - user_can_understand_product_vision
+      - visual_design_is_compelling
+      - dummy_data_feels_realistic
+
+  - phase: BUILD
+    criteria:
+      - backend_supports_all_ui_features
+      - api_contracts_are_clear
+      - database_schema_is_normalized
+      - auth_flow_is_secure
+
+  - phase: SHIP
+    criteria:
+      - all_tests_passing
+      - type_checking_clean
+      - performance_budgets_met
+      - deployment_successful
+      - monitoring_active
+
+key_principles:
+  - momentum_over_perfection: Get visible progress quickly
+  - prototype_first: Build what you can see before what you can't
+  - parallel_execution: Multiple specialists work simultaneously in Ship phase
+  - environment_optimization: Use the right tool for each phase
+  - frontend_drives_backend: UI requirements define architecture

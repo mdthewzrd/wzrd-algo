@@ -1,0 +1,99 @@
+{
+  "strategy_name": "Strategy_Name_Timeframe",
+  "description": "Clear strategy description focusing on rules, not specific dates",
+  "timeframe": "5min|15min|hour|day",
+  "symbol": "SPY|QQQ|AAPL",
+  "strategy_type": "trend_following|mean_reversion|breakout|scalping",
+
+  "entry_conditions": [
+    {
+      "type": "indicator_cross|price_level|pattern|multi_timeframe",
+      "description": "Clear rule description that can be applied to any date",
+      "direction": "long|short",
+      "indicators": ["ema9", "ema20", "vwap", "rsi", "volume", "macd"],
+      "conditions": [
+        "Specific technical condition that generates entry",
+        "Additional confirmation rule",
+        "Volume or momentum requirement"
+      ],
+      "timeframe_logic": "How this applies across HTF/MTF/LTF if applicable"
+    }
+  ],
+
+  "exit_conditions": [
+    {
+      "type": "profit_target|stop_loss|time_exit|indicator_cross",
+      "description": "Clear exit rule that can be applied to any date",
+      "direction": "close_long|close_short|scale_out",
+      "conditions": [
+        "Specific technical condition that triggers exit",
+        "Risk management rule",
+        "Time-based condition if applicable"
+      ]
+    }
+  ],
+
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage|fixed|atr|swing_points|dynamic",
+      "value": 1.5,
+      "method": "static|trailing|breakeven",
+      "atr_period": 14,
+      "atr_multiplier": 1.5
+    },
+    "take_profit": {
+      "type": "percentage|fixed|atr|r_multiple",
+      "value": 3.0,
+      "method": "static|partial|trailing",
+      "scaling_points": [1.0, 2.0, 3.0],
+      "scaling_sizes": [0.5, 0.25, 0.25]
+    },
+    "position_size": {
+      "type": "fixed|percentage|r_based|volatility_adjusted",
+      "value": 1.0,
+      "base_risk_percent": 1.0,
+      "max_r_per_trade": 2.0
+    }
+  },
+
+  "advanced_features": {
+    "pyramiding": {
+      "enabled": true,
+      "add_conditions": [
+        {
+          "trigger": "Technical confirmation for adding to position",
+          "size_increment": 0.25,
+          "max_adds": 2
+        }
+      ],
+      "max_total_r": 1.5
+    },
+    "recycling": {
+      "enabled": true,
+      "cover_conditions": ["When to take partial profits"],
+      "re_entry_conditions": ["When to re-enter at better prices"]
+    },
+    "invalidators": {
+      "pre_trade": ["Conditions that skip entries"],
+      "in_trade": ["Conditions that exit early"]
+    }
+  },
+
+  "quality_filters": {
+    "A_plus_setup": ["Conditions that make this a perfect setup"],
+    "B_plus_setup": ["Conditions that make this a good setup"],
+    "size_multipliers": {"A+": 1.0, "B+": 0.75}
+  },
+
+  "time_preferences": {
+    "best_times": ["8:00-12:00 ET", "13:00-15:30 ET"],
+    "avoid_times": ["11:30-13:00 ET", "15:45-16:00 ET"],
+    "session_filters": ["RTH only", "Avoid overnight"]
+  },
+
+  "performance_targets": {
+    "expected_win_rate": 50,
+    "expected_r_multiple": 3.0,
+    "trade_frequency": "1-2 per week"
+  }
+}

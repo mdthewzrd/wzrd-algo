@@ -1,0 +1,151 @@
+{
+  "strategy_name": "ICT_Kill_Zone_FVG_Strategy",
+  "description": "ICT Smart Money Concept strategy using Kill Zones, Fair Value Gaps, and Order Blocks adapted for WZRD MTF analysis",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 09:30:00",
+      "price": 571.85,
+      "shares": 100,
+      "reason": "London Kill Zone entry: Fair Value Gap identified with Order Block confluence and 1hr EMA confirmation",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 11:15:00",
+      "price": 574.25,
+      "shares": 100,
+      "reason": "Reached next liquidity zone - profit taking at resistance",
+      "direction": "close_long",
+      "pnl": 240.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 10:00:00",
+      "price": 572.40,
+      "shares": 100,
+      "reason": "New York AM Kill Zone: Market Structure Shift confirmed with deviation band support",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 12:30:00",
+      "price": 575.80,
+      "shares": 100,
+      "reason": "Order Block exhaustion - institutional selling pressure detected",
+      "direction": "close_long",
+      "pnl": 340.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 13:45:00",
+      "price": 574.20,
+      "shares": 100,
+      "reason": "New York PM Kill Zone: Liquidity sweep with MTF confirmation",
+      "direction": "short"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 15:30:00",
+      "price": 572.60,
+      "shares": 100,
+      "reason": "Fair Value Gap filled - target reached",
+      "direction": "close_short",
+      "pnl": 160.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ict_kill_zone_entry",
+      "description": "ICT Kill Zone entry with Fair Value Gap and Order Block confluence",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h AND Low_1h <= DevBand72_1h_Lower_6",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    },
+    {
+      "type": "ict_market_structure_shift",
+      "description": "Market Structure Shift with MTF confirmation during Kill Zones",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h AND EMA9_1D > EMA20_1D",
+      "time_filter": {
+        "start": "09:30",
+        "end": "12:00",
+        "timezone": "America/New_York"
+      }
+    },
+    {
+      "type": "ict_liquidity_sweep_short",
+      "description": "ICT Liquidity Sweep for short entries during afternoon Kill Zone",
+      "direction": "short",
+      "condition": "EMA9_5min < EMA20_5min AND previous_EMA9_5min >= previous_EMA20_5min AND High_1h >= DevBand72_1h_Upper_6",
+      "time_filter": {
+        "start": "13:30",
+        "end": "16:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ict_liquidity_zone_target",
+      "description": "ICT target at next liquidity zone",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    },
+    {
+      "type": "ict_order_block_exhaustion",
+      "description": "Order Block exhaustion - institutional pressure reversal",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    },
+    {
+      "type": "ict_fair_value_gap_fill",
+      "description": "Fair Value Gap filled - target reached",
+      "direction": "close_short",
+      "condition": "Low_1h <= DevBand72_1h_Lower_6"
+    }
+  ],
+  "ict_concepts": {
+    "kill_zones": {
+      "london_session": {
+        "start": "02:00",
+        "end": "05:00",
+        "timezone": "America/New_York",
+        "description": "London Kill Zone - High institutional activity"
+      },
+      "new_york_am": {
+        "start": "08:30",
+        "end": "11:00",
+        "timezone": "America/New_York",
+        "description": "New York AM Kill Zone - Market open volatility"
+      },
+      "new_york_pm": {
+        "start": "13:30",
+        "end": "16:00",
+        "timezone": "America/New_York",
+        "description": "New York PM Kill Zone - Afternoon institutional moves"
+      }
+    },
+    "fair_value_gaps": {
+      "identification": "Three candle pattern with gap between wicks",
+      "entry_strategy": "Wait for retest of FVG area with confluence factors",
+      "target": "Next liquidity zone or opposite FVG"
+    },
+    "order_blocks": {
+      "bullish_ob": "Last down candle before market structure break higher",
+      "bearish_ob": "Last up candle before market structure break lower",
+      "entry_strategy": "Retest of Order Block with price rejection"
+    },
+    "smart_money_concepts": {
+      "liquidity_sweep": "Price moves to collect stops above/below key levels",
+      "market_structure_shift": "Break of previous high/low confirming trend change",
+      "institutional_order_flow": "Large volume moves indicating smart money participation"
+    }
+  }
+}

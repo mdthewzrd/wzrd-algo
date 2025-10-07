@@ -1,0 +1,41 @@
+{
+  "strategy_name": "Phase_1_Basic_EMA_Crossover_Test",
+  "description": "Simple EMA 9/20 crossover test - no MTF, no time filters, no complex conditions",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 09:30:00",
+      "price": 548.50,
+      "shares": 100,
+      "reason": "EMA 9 crossed above EMA 20",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 14:30:00",
+      "price": 551.00,
+      "shares": 100,
+      "reason": "EMA 9 crossed below EMA 20",
+      "direction": "close_long",
+      "pnl": 250.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover",
+      "description": "EMA 9 crosses above EMA 20",
+      "direction": "long",
+      "condition": "EMA9 > EMA20 AND previous_EMA9 <= previous_EMA20"
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover_exit",
+      "description": "EMA 9 crosses below EMA 20",
+      "direction": "close_long",
+      "condition": "EMA9 < EMA20"
+    }
+  ]
+}

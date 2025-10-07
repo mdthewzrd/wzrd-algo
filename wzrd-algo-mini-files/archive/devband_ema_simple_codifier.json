@@ -1,0 +1,33 @@
+{
+  "strategy_name": "SPY_DevBand_EMA_Simple_Codifier",
+  "description": "Simple deviation band EMA strategy for Signal Codifier testing",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "entry_conditions": [
+    {
+      "type": "ema_crossover_devband_long",
+      "description": "EMA 9 crosses above EMA 20 with 1hr confirmation",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover_exit",
+      "description": "EMA 9 crosses below EMA 20",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    },
+    {
+      "type": "devband_target_exit",
+      "description": "Upper deviation band target reached",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    }
+  ]
+}

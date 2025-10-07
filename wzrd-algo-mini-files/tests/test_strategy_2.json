@@ -1,0 +1,60 @@
+{
+  "strategy_name": "SPY VWAP Bounce Strategy",
+  "description": "Buy when price touches VWAP from below and bounces, sell when price closes back below VWAP",
+  "timeframe": "15min",
+  "symbol": "SPY",
+  "entry_conditions": [
+    {
+      "type": "price_level",
+      "description": "Price bounces off VWAP support",
+      "direction": "long",
+      "indicators": [
+        "vwap",
+        "price"
+      ]
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "price_level",
+      "description": "Price closes below VWAP",
+      "direction": "close_long"
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 1.5
+    },
+    "take_profit": {
+      "type": "percentage",
+      "value": 3.0
+    },
+    "position_size": {
+      "type": "fixed",
+      "value": 200
+    }
+  },
+  "signals": [],
+  "performance_metrics": {
+    "total_trades": 0,
+    "winning_trades": 0,
+    "losing_trades": 0,
+    "win_rate": 0,
+    "total_pnl": 0,
+    "profit_factor": 0,
+    "expectancy_per_r": 0,
+    "max_drawdown": 0,
+    "average_win": 0,
+    "average_loss": 0,
+    "largest_win": 0,
+    "largest_loss": 0
+  },
+  "provenance": {
+    "generated_by": "rules_engine",
+    "data_source": "intraday_ohlcv",
+    "rule_version": "v1.0.0",
+    "generation_timestamp": "2025-10-01T10:17:15.491270",
+    "code_hash": "60079489"
+  }
+}

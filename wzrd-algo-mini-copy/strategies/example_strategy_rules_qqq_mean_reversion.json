@@ -1,0 +1,124 @@
+{
+  "strategy_name": "QQQ_15min_Mean_Reversion",
+  "description": "Short QQQ when price extends >1% above VWAP with overbought RSI, cover at VWAP reversion",
+  "timeframe": "15min",
+  "symbol": "QQQ",
+  "strategy_type": "mean_reversion",
+
+  "entry_conditions": [
+    {
+      "type": "price_level",
+      "description": "Price extends more than 1% above VWAP with overbought momentum",
+      "direction": "short",
+      "indicators": ["vwap", "rsi", "volume"],
+      "conditions": [
+        "Price > 1% above VWAP session anchor",
+        "RSI > 70 (overbought)",
+        "Volume > 1.5x average volume (confirmation)",
+        "Daily trend neutral or bearish (50EMA below 200EMA or flat)"
+      ],
+      "timeframe_logic": "HTF daily trend filter, MTF 15min extension detection, LTF precise entry"
+    }
+  ],
+
+  "exit_conditions": [
+    {
+      "type": "price_level",
+      "description": "Price returns to VWAP or profit target reached",
+      "direction": "close_short",
+      "conditions": [
+        "Price <= VWAP (mean reversion target)",
+        "OR price reaches 1.5R profit target",
+        "OR RSI < 50 (momentum normalization)",
+        "OR time stop after 2 hours"
+      ]
+    },
+    {
+      "type": "stop_loss",
+      "description": "Stop loss triggered if price continues against position",
+      "direction": "close_short",
+      "conditions": [
+        "Price > 0.75% above entry (stop loss)",
+        "OR RSI > 80 (extreme overbought)",
+        "OR volume divergence (price up, volume down)"
+      ]
+    }
+  ],
+
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 0.75,
+      "method": "static",
+      "description": "0.75% stop loss from entry price"
+    },
+    "take_profit": {
+      "type": "r_multiple",
+      "value": 1.5,
+      "method": "static",
+      "description": "1.5R profit target"
+    },
+    "position_size": {
+      "type": "r_based",
+      "value": 1.0,
+      "base_risk_percent": 1.0,
+      "max_r_per_trade": 1.0,
+      "description": "Risk 1% of account per trade"
+    }
+  },
+
+  "advanced_features": {
+    "pyramiding": {
+      "enabled": false,
+      "description": "No pyramiding for mean reversion scalping"
+    },
+    "recycling": {
+      "enabled": true,
+      "cover_conditions": [
+        "Take 50% profit at 1R target",
+        "Hold 50% for full VWAP reversion"
+      ],
+      "re_entry_conditions": [
+        "Re-enter 50% position if price extends >1.2% above VWAP after initial profit"
+      ]
+    },
+    "invalidators": {
+      "pre_trade": [
+        "Skip if VIX > 30 (high volatility)",
+        "Skip if SPY up > 1.5% (strong bull market)",
+        "Skip if before 9:45 or after 15:45 ET"
+      ],
+      "in_trade": [
+        "Exit if SPY drops > 1% (market stress)",
+        "Exit if volume suddenly spikes > 3x average"
+      ]
+    }
+  },
+
+  "quality_filters": {
+    "A_plus_setup": [
+      "Price > 1.2% above VWAP",
+      "RSI > 75",
+      "Volume > 2x average",
+      "Bearish daily alignment"
+    ],
+    "B_plus_setup": [
+      "Price > 1% above VWAP",
+      "RSI > 70",
+      "Volume > 1.5x average"
+    ],
+    "size_multipliers": {"A+": 1.0, "B+": 0.75}
+  },
+
+  "time_preferences": {
+    "best_times": ["9:45-11:30 ET", "13:30-15:30 ET"],
+    "avoid_times": ["11:30-13:30 ET", "15:45-16:00 ET"],
+    "session_filters": ["RTH preferred", "Avoid overnight gaps"]
+  },
+
+  "performance_targets": {
+    "expected_win_rate": 60,
+    "expected_r_multiple": 1.8,
+    "trade_frequency": "1-3 per day"
+  }
+}

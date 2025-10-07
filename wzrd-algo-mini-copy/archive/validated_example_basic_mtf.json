@@ -1,0 +1,46 @@
+{
+  "strategy_name": "Basic_MTF_EMA_Crossover_QQQ",
+  "description": "QQQ EMA 9/20 crossover with 1hr confirmation and 8am-1pm entries",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 09:30:00",
+      "price": 445.50,
+      "shares": 100,
+      "reason": "EMA 9 crossed above EMA 20 on 5min with 1hr bullish confirmation",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 14:30:00",
+      "price": 448.00,
+      "shares": 100,
+      "reason": "EMA 9 crossed below EMA 20 on 5min",
+      "direction": "close_long",
+      "pnl": 250.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover_with_mtf_confirmation",
+      "description": "EMA 9 crosses above EMA 20 on 5min AND 1hr EMA trend bullish",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover_exit",
+      "description": "EMA 9 crosses below EMA 20 on 5min",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    }
+  ]
+}

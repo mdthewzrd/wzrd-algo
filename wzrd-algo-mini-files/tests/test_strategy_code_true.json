@@ -1,0 +1,265 @@
+{
+  "strategy_name": "QQQ_MTF_Advanced_Mean_Reversion",
+  "description": "Multi-timeframe mean reversion strategy with pyramiding, recycling, and advanced invalidators. Uses HTF daily trend filtering, MTF 15min setup confirmation, and LTF 5min execution with dynamic position building.",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "entry_conditions": [
+    {
+      "type": "multi_timeframe_alignment",
+      "description": "HTF: Daily uptrend (50EMA > 200EMA) + MTF: 15min pullback to VWAP + LTF: 5min RSI oversold bounce",
+      "direction": "long",
+      "indicators": [
+        "ema50",
+        "ema200",
+        "vwap",
+        "rsi",
+        "volume"
+      ],
+      "htf_condition": "Daily 50EMA above 200EMA with positive momentum",
+      "mtf_condition": "15min price pulls back to VWAP support with volume confirmation",
+      "ltf_condition": "5min RSI < 35 and stochastic oversold with bullish divergence"
+    },
+    {
+      "type": "quality_filter",
+      "description": "A+ setup: RSI < 30, volume spike > 2x average, price within 0.5% of VWAP",
+      "direction": "long",
+      "indicators": [
+        "rsi",
+        "volume",
+        "vwap"
+      ],
+      "quality_score": "A+",
+      "size_multiplier": 1.0
+    },
+    {
+      "type": "quality_filter",
+      "description": "B+ setup: RSI < 40, volume > 1.5x average, price within 1.0% of VWAP",
+      "direction": "long",
+      "indicators": [
+        "rsi",
+        "volume",
+        "vwap"
+      ],
+      "quality_score": "B+",
+      "size_multiplier": 0.75
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "profit_target",
+      "description": "Take 50% profit at 1R target, 25% at 2R, hold 25% to 3R or VWAP rejection",
+      "direction": "scale_out_long"
+    },
+    {
+      "type": "stop_loss",
+      "description": "Initial stop at 1.5% below entry, trail to breakeven at 1R profit, then ATR-based trailing",
+      "direction": "close_long"
+    },
+    {
+      "type": "time_exit",
+      "description": "Exit if position held > 3 days without hitting profit target",
+      "direction": "close_long"
+    },
+    {
+      "type": "momentum_failure",
+      "description": "Exit if price breaks below recent swing low or volume diverges negatively",
+      "direction": "close_long"
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "dynamic",
+      "value": 1.5,
+      "method": "percentage_atr_hybrid",
+      "atr_period": 14,
+      "atr_multiplier": 1.5
+    },
+    "take_profit": {
+      "type": "r_multiple",
+      "value": 3.0,
+      "method": "partial_scaling",
+      "scaling_points": [
+        1.0,
+        2.0,
+        3.0
+      ],
+      "scaling_sizes": [
+        0.5,
+        0.25,
+        0.25
+      ]
+    },
+    "position_size": {
+      "type": "r_based",
+      "value": 1.0,
+      "method": "volatility_adjusted",
+      "base_risk_percent": 1.0,
+      "max_r_per_trade": 2.0
+    },
+    "pyramiding": {
+      "enabled": true,
+      "method": "confirmation_based",
+      "add_conditions": [
+        {
+          "level": "initial",
+          "size_r": 0.25,
+          "condition": "Initial 5min RSI bounce with volume confirmation"
+        },
+        {
+          "level": "confirmation",
+          "size_r": 0.25,
+          "condition": "Price breaks above 5min high with continued volume"
+        },
+        {
+          "level": "continuation",
+          "size_r": 0.5,
+          "condition": "15min trend continuation with EMA 9/20 alignment"
+        }
+      ],
+      "max_total_r": 1.0,
+      "min_price_improvement": 0.2
+    },
+    "recycling": {
+      "enabled": true,
+      "cover_strategy": "partial_scale_out",
+      "re_entry_conditions": [
+        {
+          "cover_percent": 50,
+          "re_entry_trigger": "Price pulls back 0.8% below VWAP with RSI < 45",
+          "size_adjustment": 0.75
+        },
+        {
+          "cover_percent": 25,
+          "re_entry_trigger": "Price tests previous support with bullish divergence",
+          "size_adjustment": 0.5
+        }
+      ],
+      "max_recycles_per_setup": 2,
+      "min_recycle_wait": "30min"
+    }
+  },
+  "trade_invalidators": {
+    "pre_trade_filters": [
+      {
+        "type": "market_regime",
+        "condition": "VIX > 35 or SPY below 200DMA",
+        "action": "skip_all_entries",
+        "description": "Avoid high volatility or bear market conditions"
+      },
+      {
+        "type": "time_filter",
+        "condition": "Time outside 9:45-11:30 ET or 13:30-15:45 ET",
+        "action": "skip_all_entries",
+        "description": "Only trade during high-probability time windows"
+      },
+      {
+        "type": "volume_filter",
+        "condition": "5min volume < 100,000 shares or 15min volume < 500,000",
+        "action": "skip_all_entries",
+        "description": "Require minimum liquidity for execution"
+      },
+      {
+        "type": "news_filter",
+        "condition": "FOMC meeting day or major economic data release",
+        "action": "skip_all_entries",
+        "description": "Avoid trading around high-impact news events"
+      },
+      {
+        "type": "correlation_filter",
+        "condition": "SPY down > 1.5% or TLT trending strongly against QQQ",
+        "action": "skip_all_entries",
+        "description": "Avoid when market correlations are unfavorable"
+      }
+    ],
+    "in_trade_invalidators": [
+      {
+        "type": "momentum_shift",
+        "condition": "Price breaks below recent swing low or RSI makes lower low",
+        "action": "immediate_exit",
+        "description": "Exit if momentum turns against position"
+      },
+      {
+        "type": "volume_divergence",
+        "condition": "Price makes new high but volume decreases > 20%",
+        "action": "reduce_position_50_percent",
+        "description": "Reduce exposure on weakening volume"
+      },
+      {
+        "type": "time_decay",
+        "condition": "Position held > 2 days without 0.5R profit",
+        "action": "tighten_stop_to_breakeven",
+        "description": " tighten risk on non-performing positions"
+      },
+      {
+        "type": "volatility_explosion",
+        "condition": "5min ATR expands > 2x average or gap > 1%",
+        "action": "exit_50_percent_position",
+        "description": "Reduce exposure during volatility spikes"
+      }
+    ]
+  },
+  "multi_timeframe_analysis": {
+    "htf_daily": {
+      "trend": "bullish",
+      "ema_alignment": "50EMA > 200EMA",
+      "momentum": "positive",
+      "support_resistance": "Support at $585, Resistance at $605"
+    },
+    "mtf_15min": {
+      "trend": "bullish",
+      "vwap_relationship": "price oscillating around VWAP",
+      "volume_pattern": "Above average on rallies",
+      "key_levels": "VWAP support at $592, Resistance at $600"
+    },
+    "ltf_5min": {
+      "momentum": "mixed",
+      "rsi_pattern": "Oversold bounces working",
+      "volume_spike_triggers": "2x+ volume confirming entries",
+      "micro_structure": "Swing highs/lows defining short-term trends"
+    }
+  },
+  "advanced_features": {
+    "dynamic_stop_management": "ATR-based with breakeven at 1R, trailing after 1.5R",
+    "position_building": "3-leg pyramiding (0.25R \u2192 0.25R \u2192 0.5R) with confirmation",
+    "recycling_mechanics": "50% cover at 1R, re-entry at better prices with 75% size",
+    "quality_scaling": "A+ = 100% size, B+ = 75% size based on setup quality",
+    "invalidation_system": "5 pre-trade filters + 4 in-trade invalidators",
+    "risk_adjustment": "Volatility-based sizing, reduced size in high VIX conditions"
+  },
+  "signals": [
+    {
+      "timestamp": "1970-01-01 00:00:00",
+      "type": "entry_long",
+      "price": 348.34,
+      "shares": 47,
+      "position_id": "QQQ-1970-01-01-A",
+      "leg": 1,
+      "r_allocation": 0.25,
+      "reason": "Technical setup detected",
+      "execution": "BOUGHT 47 shares @ $348.34",
+      "calculation": "stop 343.11 (risk $5.23) \u2192 shares=floor($250 / 5.23)=47 \u2192 rounded to 47 with portfolio sizing rules",
+      "pnl": 0.0
+    }
+  ],
+  "performance_metrics": {
+    "total_trades": 0,
+    "winning_trades": 0,
+    "losing_trades": 0,
+    "win_rate": 0,
+    "total_pnl": 0,
+    "profit_factor": 0,
+    "expectancy_per_r": 0,
+    "max_drawdown": 0,
+    "average_win": 0,
+    "average_loss": 0,
+    "largest_win": 0,
+    "largest_loss": 0
+  },
+  "provenance": {
+    "generated_by": "rules_engine",
+    "data_source": "intraday_ohlcv",
+    "rule_version": "v1.0.0",
+    "generation_timestamp": "2025-10-01T10:17:15.544863",
+    "code_hash": "4db51b83"
+  }
+}

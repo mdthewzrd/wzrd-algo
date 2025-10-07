@@ -1,0 +1,65 @@
+{
+  "strategy_name": "EMA_9_20_Crossover_Zoom_Test",
+  "description": "EMA 9/20 crossover with signals for zoom testing",
+  "timeframe": "5min",
+  "symbol": "QQQ",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 09:35:00",
+      "price": 449.25,
+      "shares": 100,
+      "reason": "EMA 9 crossed above EMA 20",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 11:15:00",
+      "price": 451.80,
+      "shares": 100,
+      "reason": "EMA 9 crossed below EMA 20",
+      "direction": "close_long",
+      "pnl": 255.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 13:45:00",
+      "price": 448.90,
+      "shares": 100,
+      "reason": "EMA 9 crossed above EMA 20",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 15:20:00",
+      "price": 450.15,
+      "shares": 100,
+      "reason": "EMA 9 crossed below EMA 20",
+      "direction": "close_long",
+      "pnl": 125.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 10:10:00",
+      "price": 452.40,
+      "shares": 100,
+      "reason": "EMA 9 crossed above EMA 20",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 14:30:00",
+      "price": 454.90,
+      "shares": 100,
+      "reason": "EMA 9 crossed below EMA 20",
+      "direction": "close_long",
+      "pnl": 250.0
+    }
+  ],
+  "performance_metrics": {
+    "total_trades": 3,
+    "win_rate": 1.0,
+    "total_pnl": 630.0,
+    "profit_factor": 3.2
+  }
+}

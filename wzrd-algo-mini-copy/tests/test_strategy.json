@@ -1,0 +1,63 @@
+{
+  "strategy_name": "SPY 15min EMA Crossover Test",
+  "description": "Simple EMA 9/20 crossover strategy on SPY 15-minute timeframe with recent signals for testing",
+  "timeframe": "15min",
+  "symbol": "SPY",
+  "entry_conditions": [
+    {
+      "type": "indicator_cross",
+      "description": "EMA 9 crosses above EMA 20",
+      "direction": "long",
+      "indicators": ["ema9", "ema20"]
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "indicator_cross",
+      "description": "EMA 9 crosses below EMA 20",
+      "direction": "close_long"
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 2.0
+    },
+    "take_profit": {
+      "type": "percentage",
+      "value": 5.0
+    },
+    "position_size": {
+      "type": "fixed",
+      "value": 100
+    }
+  },
+  "signals": [
+    {
+      "timestamp": "2025-09-26 10:30:00",
+      "type": "entry_long",
+      "price": 571.50,
+      "reason": "EMA 9 crossed above EMA 20"
+    },
+    {
+      "timestamp": "2025-09-26 14:45:00",
+      "type": "exit_long",
+      "price": 572.25,
+      "reason": "EMA 9 crossed below EMA 20",
+      "pnl": 75.0
+    },
+    {
+      "timestamp": "2025-09-29 10:15:00",
+      "type": "entry_long",
+      "price": 570.00,
+      "reason": "EMA 9 crossed above EMA 20"
+    },
+    {
+      "timestamp": "2025-09-29 13:30:00",
+      "type": "exit_long",
+      "price": 572.75,
+      "reason": "Take profit target reached",
+      "pnl": 275.0
+    }
+  ]
+}

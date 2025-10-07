@@ -1,0 +1,69 @@
+{
+  "strategy_name": "SPY_Complete_MTF_Strategy_Current",
+  "description": "SPY complete strategy with current timestamps for WZRD Strategy Signals Viewer",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 09:45:00",
+      "price": 572.25,
+      "shares": 100,
+      "reason": "Complete MTF entry: EMA crossover + 1hr confirmation + daily gate + route start",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 13:15:00",
+      "price": 575.80,
+      "shares": 100,
+      "reason": "Route end: Price reached upper deviation band",
+      "direction": "close_long",
+      "pnl": 355.0
+    },
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-02 14:30:00",
+      "price": 574.90,
+      "shares": 100,
+      "reason": "EMA crossover with momentum confirmation",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-02 15:45:00",
+      "price": 576.45,
+      "shares": 100,
+      "reason": "End of day exit - resistance level",
+      "direction": "close_long",
+      "pnl": 155.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "complete_mtf_strategy",
+      "description": "Complete MTF: EMA crossover + 1hr + daily + route start",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h AND EMA9_1D > EMA20_1D AND Low_1h <= DevBand72_1h_Lower_6",
+      "time_filter": {
+        "start": "08:00",
+        "end": "13:00",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "deviation_band_route_end",
+      "description": "Route end: Price reaches upper deviation band",
+      "direction": "close_long",
+      "condition": "High_1h >= DevBand72_1h_Upper_6"
+    },
+    {
+      "type": "ema_crossover_exit_fallback",
+      "description": "Fallback: EMA 9 crosses below EMA 20 on 5min",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "strategy_name": "EMA 9/20 Crossover with VWAP Confirmation",
+  "description": "Long when EMA 9 crosses above EMA 20 and price is above VWAP. Exit when EMA 9 crosses below EMA 20 or price drops 2% from entry.",
+  "timeframe": "15min",
+  "symbol": "SPY",
+  "entry_conditions": [
+    {
+      "type": "indicator_cross",
+      "description": "EMA 9 crosses above EMA 20",
+      "direction": "long",
+      "indicators": ["ema9", "ema20"]
+    },
+    {
+      "type": "price_level",
+      "description": "Price must be above VWAP at entry",
+      "direction": "long",
+      "indicators": ["price", "vwap"]
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "indicator_cross",
+      "description": "EMA 9 crosses below EMA 20",
+      "direction": "close_long"
+    },
+    {
+      "type": "stop_loss",
+      "description": "2% stop loss triggered",
+      "direction": "close_long"
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 2.0
+    },
+    "take_profit": {
+      "type": "percentage",
+      "value": 5.0
+    },
+    "position_size": {
+      "type": "fixed",
+      "value": 100
+    }
+  },
+  "signals": [
+    {
+      "timestamp": "2025-09-29 10:00:00",
+      "type": "entry_long",
+      "price": 661.25,
+      "reason": "EMA 9 crossed above EMA 20 with price above VWAP"
+    },
+    {
+      "timestamp": "2025-09-29 14:15:00",
+      "type": "exit_long",
+      "price": 664.80,
+      "reason": "EMA 9 crossed below EMA 20",
+      "pnl": 355.0
+    },
+    {
+      "timestamp": "2025-09-30 09:45:00",
+      "type": "entry_long",
+      "price": 662.50,
+      "reason": "EMA 9 crossed above EMA 20 with price above VWAP"
+    },
+    {
+      "timestamp": "2025-09-30 13:30:00",
+      "type": "exit_long",
+      "price": 668.75,
+      "reason": "Take profit target reached (+5%)",
+      "pnl": 625.0
+    }
+  ]
+}

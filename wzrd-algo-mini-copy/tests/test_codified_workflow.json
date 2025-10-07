@@ -1,0 +1,111 @@
+{
+  "strategy_name": "QQQ_Mean_Reversion_Codified",
+  "description": "Codified mean reversion strategy with signals",
+  "symbol": "QQQ",
+  "timeframe": "5min",
+  "entry_conditions": [
+    {
+      "type": "multi_timeframe_alignment",
+      "description": "HTF trend + MTF setup + LTF execution",
+      "direction": "short",
+      "htf_condition": "Daily 50EMA < 200EMA",
+      "mtf_condition": "15min price > 1% above VWAP",
+      "ltf_condition": "5min RSI > 70 with volume confirmation"
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "profit_target",
+      "description": "Take profit at target",
+      "direction": "close_short"
+    }
+  ],
+  "risk_management": {
+    "stop_loss": {
+      "type": "percentage",
+      "value": 1.0
+    },
+    "take_profit": {
+      "type": "r_multiple",
+      "value": 2.0
+    },
+    "pyramiding": {
+      "enabled": true,
+      "max_legs": 2,
+      "add_conditions": [
+        {
+          "level": "initial",
+          "size_r": 0.5,
+          "condition": "Initial entry"
+        },
+        {
+          "level": "confirmation",
+          "size_r": 0.5,
+          "condition": "Price confirmation"
+        }
+      ]
+    }
+  },
+  "signals": [
+    {
+      "timestamp": "2025-10-01 10:30:00",
+      "type": "entry_short",
+      "price": 350.25,
+      "shares": 100,
+      "position_id": "QQQ-2025-10-01-A",
+      "leg": 1,
+      "r_allocation": 0.5,
+      "reason": "Technical setup detected",
+      "execution": "SOLD 100 shares @ $350.25",
+      "calculation": "stop 353.75 (risk $3.50) \u2192 shares=floor($250 / 3.50)=71 \u2192 rounded to 100 with portfolio sizing rules",
+      "pnl": 0.0
+    },
+    {
+      "timestamp": "2025-10-01 10:35:00",
+      "type": "entry_short",
+      "price": 350.5,
+      "shares": 100,
+      "position_id": "QQQ-2025-10-01-A",
+      "leg": 2,
+      "r_allocation": 0.5,
+      "reason": "Price confirmation",
+      "execution": "SOLD 100 shares @ $350.50",
+      "calculation": "stop 354.01 (risk $3.51) \u2192 shares=floor($250 / 3.51)=71 \u2192 rounded to 100 with portfolio sizing rules",
+      "pnl": 0.0
+    },
+    {
+      "timestamp": "2025-10-01 11:15:00",
+      "type": "exit_short",
+      "price": 347.5,
+      "shares": 200,
+      "position_id": "QQQ-2025-10-01-A",
+      "leg": 1,
+      "r_allocation": 1.0,
+      "reason": "Profit target reached",
+      "execution": "BOUGHT 200 shares @ $347.50",
+      "calculation": "Profit: $5.75 per share \u00d7 200 shares = $1,150 (2.3R)",
+      "pnl": 1150.0
+    }
+  ],
+  "performance_metrics": {
+    "total_trades": 1,
+    "winning_trades": 1,
+    "losing_trades": 0,
+    "win_rate": 100.0,
+    "total_pnl": 1150.0,
+    "profit_factor": 1.0,
+    "expectancy_per_r": 2.3,
+    "max_drawdown": 0.0,
+    "average_win": 1150.0,
+    "average_loss": 0.0,
+    "largest_win": 1150.0,
+    "largest_loss": 0.0
+  },
+  "provenance": {
+    "generated_by": "signal_codifier",
+    "data_source": "polygon_io",
+    "rule_version": "v1.0.0",
+    "generation_timestamp": "2025-10-01T13:02:34.890215",
+    "code_hash": "test_workflow_hash"
+  }
+}

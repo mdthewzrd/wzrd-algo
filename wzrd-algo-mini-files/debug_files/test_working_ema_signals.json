@@ -1,0 +1,28 @@
+{
+  "strategy_name": "SPY_Working_EMA_Cross_Test",
+  "description": "Simple EMA crossover that should generate real signals",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover",
+      "description": "EMA 9 crosses above EMA 20",
+      "direction": "long",
+      "condition": "EMA9 > EMA20",
+      "time_filter": {
+        "start": "08:00",
+        "end": "15:30",
+        "timezone": "America/New_York"
+      }
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover",
+      "description": "EMA 9 crosses below EMA 20",
+      "direction": "close_long",
+      "condition": "EMA9 < EMA20"
+    }
+  ]
+}

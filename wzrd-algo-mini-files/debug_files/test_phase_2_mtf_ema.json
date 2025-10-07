@@ -1,0 +1,41 @@
+{
+  "strategy_name": "Phase_2_MTF_EMA_Crossover_Test",
+  "description": "EMA 9/20 crossover on 5min with 1hr EMA direction confirmation - no time filters yet",
+  "timeframe": "5min",
+  "symbol": "SPY",
+  "signals": [
+    {
+      "type": "entry_signal",
+      "timestamp": "2024-10-01 09:30:00",
+      "price": 548.50,
+      "shares": 100,
+      "reason": "EMA 9 crossed above EMA 20 on 5min AND 1hr EMA trend bullish",
+      "direction": "long"
+    },
+    {
+      "type": "exit_signal",
+      "timestamp": "2024-10-01 14:30:00",
+      "price": 551.00,
+      "shares": 100,
+      "reason": "EMA 9 crossed below EMA 20 on 5min",
+      "direction": "close_long",
+      "pnl": 250.0
+    }
+  ],
+  "entry_conditions": [
+    {
+      "type": "ema_crossover_with_mtf_confirmation",
+      "description": "EMA 9 crosses above EMA 20 on 5min AND 1hr EMA trend bullish",
+      "direction": "long",
+      "condition": "EMA9_5min > EMA20_5min AND previous_EMA9_5min <= previous_EMA20_5min AND EMA9_1h > EMA20_1h"
+    }
+  ],
+  "exit_conditions": [
+    {
+      "type": "ema_crossover_exit",
+      "description": "EMA 9 crosses below EMA 20 on 5min",
+      "direction": "close_long",
+      "condition": "EMA9_5min < EMA20_5min"
+    }
+  ]
+}
